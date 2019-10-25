@@ -2,17 +2,14 @@
 # Copyright (c) 2018 Janusz Skonieczny
 
 import logging
-from pathlib import Path
 
-import tablib
-from django.conf import settings
+import pytest
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.shortcuts import resolve_url
-from django.test import RequestFactory
 
-from website.admin import custom_admin_site as site
-from website.misc.testing import AdminUserTestCase, UserTestCase
-from .. import admin, factories, models, resources
+from website.misc.testing import AdminUserTestCase
+
+from . import factories
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +24,9 @@ class AdminAvailableTests(AdminUserTestCase):
 
 # noinspection PyUnusedLocal,PyMethodMayBeStatic,PyProtectedMember
 FACTORIES = (
-    # factories.?,
+    factories.SharedUrlFactory,
+    factories.SharedFileFactory,
+    factories.UserAgentFactory,
 )
 
 # noinspection PyUnusedLocal,PyMethodMayBeStatic,PyProtectedMember

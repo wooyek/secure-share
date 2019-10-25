@@ -46,8 +46,10 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     'social_core.backends.stackoverflow.StackoverflowOAuth2',
 )
 
-SOCIAL_AUTH_SLUGIFY_USERNAMES = True
+SOCIAL_AUTH_SLUGIFY_USERNAMES = core.env("SOCIAL_AUTH_SLUGIFY_USERNAMES", default=False)
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = core.env("SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL", default=True)
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['wizard', ]
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # http://psa.matiasaguirre.net/docs/pipeline.html#authentication-pipeline
 SOCIAL_AUTH_PIPELINE = (

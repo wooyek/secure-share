@@ -4,6 +4,11 @@ from import_export import resources
 from . import models
 
 
-class SampleModelResource(resources.ModelResource):
+class SharedUrlResource(resources.ModelResource):
     class Meta:
-        model = models.SampleModel
+        model = models.SharedUrl
+
+
+class SharedFileResource(resources.ModelResource):
+    class Meta:
+        model = models.SharedFile

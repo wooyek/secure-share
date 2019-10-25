@@ -20,8 +20,8 @@ class Command(BaseCommand):
         if not self.accept_state(**options):
             return  # noqa
         logging.info("Faking test data: %s", count)
-        from secure_share import factories
-        items = factories.SampleModelFactory.create_batch(int(count))
+        from secure_share.tests import factories
+        items = factories.SharedUrlFactory.create_batch(int(count))
         log.info("Created: %s", items)
 
     # noinspection PyUnusedLocal
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         if force:
             return True
         try:
-            assert models.SampleModel.objects.count() == 0
+            assert models.SharedUrl.objects.count() == 0
             return True
         except AssertionError as ex:
             if on_empty:

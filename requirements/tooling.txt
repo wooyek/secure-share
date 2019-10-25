@@ -5,14 +5,14 @@ bump2version
 check-manifest
 codecov
 coverage
-detox
 flake8
 invoke
 isort
+pip-tools
 pygments
+pyyaml
 readme-renderer
 setuptools
 tox
 wheel
-pyyaml
 yuicompressor

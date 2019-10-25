@@ -1,0 +1,23 @@
+{% extends "base/default.html" %}
+{% block content %}
+<div class="row mt-5">
+  <div class="col-xl-8 offset-xl-2 ">
+    <div class="card shadow">
+      <div class="card-header ">{% trans %}Share details{% endtrans %}</div>
+      <table class="table table-hover mb-0">
+        <tbody>
+        {% for field_name in ['email', 'url', 'secret', ] %}
+          <tr>
+            <th scope="row">{{ object.get_field_name(field_name) }}</th>
+            <td>{{ object[field_name] }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    <div class="card-footer te">
+      <a class="btn btn-secondary" href="{% block url %}{{ url('secure_share:SharedUrlAuthorize', object.pk) }}{% endblock %}">{% trans %}View{% endtrans %}</a>
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

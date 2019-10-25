@@ -1,20 +1,15 @@
 # coding=utf-8
 from django import forms
-from django.utils.translation import get_language
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from . import models
 
+class AuthorizationForm(forms.Form):
+    password = forms.CharField(label=_('Password'))
 
-class TranslatedMultipleChoiceField(forms.ModelMultipleChoiceField):
-    def label_from_instance(self, obj):
-        return obj.trans(get_language())
+    def check_password(self, valid_password):
+        if self.cleaned_data['password'] == valid_password:
+            return True
 
-
-class SampleModelForm(forms.ModelForm):
-    class Meta:
-        model = models.SampleModel
-        fields = ('name',)
-        labels = {
-            'name': _('name'),
-        }
+        self.add_error('password', ValidationError(_('Invalid password')))
+        return False

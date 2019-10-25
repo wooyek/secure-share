@@ -94,7 +94,11 @@ def check(ctx):
     """Check project codebase cleanness"""
     ctx.run("flake8 src tests setup.py manage.py")
     ctx.run("isort --check-only --diff --recursive src tests setup.py")
-    ctx.run("python setup.py check --strict --metadata --restructuredtext")
+    # ctx.run("python setup.py check --strict --metadata --restructuredtext")
+    ctx.run("python setup.py sdist")
+    ctx.run("python setup.py bdist_wheel")
+    ctx.run("twine check dist/*.whl")
+    ctx.run("twine check dist/*.tar.gz")
     ctx.run("check-manifest  --ignore .idea,.idea/* .")
     ctx.run("pytest --cov=src --cov=tests --cov-fail-under=5 -n auto --html="+str(PROJ_TMP_DIR / 'pytest.html'))
 
@@ -125,7 +129,8 @@ def isort(ctx):
 @task
 def tox(ctx):
     """Run tox in paralel"""
-    ctx.run("tox --parallel auto -o", pty=True)
+    # ctx.run("tox --parallel auto -o", pty=True)
+    ctx.run("tox", pty=True)
 
 
 @task
@@ -194,11 +199,10 @@ def sync_master(ctx):
 @task()
 def bump(ctx, minor=False):
     """Increment version number"""
-    # ctx.run("bumpversion patch --no-tag")
     if minor:
-        ctx.run("bumpversion minor")
-    else:	
-        ctx.run("bumpversion patch --allow-dirty")
+        ctx.run("bumpversion minor --allow-dirty --no-tag")
+    else:
+        ctx.run("bumpversion patch --allow-dirty --no-tag")
     import re
     version_file = ROOT_DIR / "src" / "website" / "__init__.py"
     text = version_file.read_text()
@@ -206,7 +210,7 @@ def bump(ctx, minor=False):
     text = re.sub(r"__date__ = .*", new_date, text)
     version_file.write_text(text)
     ctx.run('git add '+str(version_file))
-    ctx.run('git commit -m "Update __date__" --allow-empty')
+    ctx.run('git commit --allow-empty --amend --no-edit')
 
 
 @task()
@@ -220,7 +224,7 @@ def pip_compile(ctx):
 
 
 @task()
-def pipenv(ctx):
+def pipenv(ctx):  # Experimental
     """Upgrade frozen requirements to the latest version"""
     ctx.run('pipenv install -r requirements/production.txt')
     ctx.run('pipenv install --dev -r requirements/development.txt')
@@ -292,6 +296,7 @@ def locales_babel(ctx):
     """
     Collect and compile translation strings
     """
+    # https://docs.djangoproject.com/en/dev/ref/django-admin/#django-admin-makemessages
     # http://babel.edgewall.org/wiki/BabelDjango
     pybabel = str('pybabel')
     ctx.run(pybabel + " extract -F locale/babel.cfg -o locale/django.pot --no-wrap --sort-output .")
@@ -308,7 +313,7 @@ def locales_babel(ctx):
 
 
 # noinspection PyUnusedLocal
-@task(post=[locales_django])
+@task(post=[locales_babel])
 def locales(ctx):
     """
     Collect and compile translation strings
@@ -339,7 +344,7 @@ def trigger_tests(ctx):
     ctx.run("git push origin develop", env=env)
 
 
-@task(iterable=['remote'], help={'remote': "Git remote used to ship local repository"})
+@task(iterable=['remote'], help={'remote': "Git remote used to ship local repository"}, post=[])
 def ship(ctx, remote='dev', branch='master'):
     """
     Ship current version to a remote environment
@@ -347,13 +352,16 @@ def ship(ctx, remote='dev', branch='master'):
     ctx.run("git checkout {branch}".format(branch=branch))
     ctx.run("git push {remote} {branch}  --verbose".format(remote=remote, branch=branch))
     ctx.run("git checkout develop")
+
     # Uncomment this to show release script output
-    # ctx.run("heroku logs -r {remote}".format(remote=remote))
+    ctx.run("heroku logs -r {remote}".format(remote=remote))
+
     # Uncomment this to show docker running containers
-    print("===== Checking out free space")
-    ctx.run("ssh jsk@moniuszko.tk df -h")
-    print("===== Listing containers")
-    ctx.run("ssh jsk@moniuszko.tk docker ps")
+    # print("===== Checking out free space")
+    # ctx.run("ssh user@dev.example.com df -h")
+    # print("===== Listing containers")
+    # ctx.run("ssh user@dev.example.com docker ps")
+
     print("[ OK ] Deployed: {} v{}".format(remote, get_current_version()))
 
 
@@ -396,14 +404,13 @@ def vagrant(ctx):
     ctx.run("git push vagrant develop --verbose")
 
 
-
 @task
 def dump(ctx):
     """Dump django fixtures with initial and test data"""
 
     with FIXTURES.open() as f:
         import yaml
-        fixtures = yaml.load(f)
+        fixtures = yaml.load(f, Loader=yaml.FullLoader)
 
     for file, what in fixtures.items():
         log.info("Dumping fixture: %s" % file)

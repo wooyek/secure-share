@@ -5,12 +5,18 @@
 
 click
 click-log
-django<2.0 ; python_version < '3.5'
-django>=2.0 ; python_version >= '3.5'
+colorlog
+crayons
+dinja2
+# https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
+django<2.0 ; python_version < '3.4'
+django<2.1 ; python_version == '3.4'
+django     ; python_version >= '3.5'
 django-admin-ordering
 django-admin-relation-links
 django-assets
 django-bootstrap-form
+django-babel
 django-debug-toolbar
 django-email-queue
 django-environ
@@ -25,8 +31,10 @@ django-powerbank
 django-pure-pagination
 django-reversion
 # easy_thumbnails
+djangorestframework
+djangorestframework-jsonapi
 enum34 ; python_version < '3.4'
-# html2text
+html2text
 # isoweek
 # jinja2-highlight
 # markdown
@@ -39,6 +47,7 @@ pycountry
 pytz
 pathlib ; python_version < '3.3'
 pendulum
+python-dotenv
 # version 2018.11.3 has installation issues
 # regex==2018.8.29
 # sorl-thumbnail

@@ -72,7 +72,8 @@ from .components import core  # noqa: F402 F403 isort:skip
 MIDDLEWARE += (  # noqa: F405
     # https://docs.djangoproject.com/pl/2.1/ref/contrib/flatpages/#installation
     # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
-    'django_user_agents.middleware.UserAgentMiddleware',
+    # 'django_user_agents.middleware.UserAgentMiddleware',
+    'secure_share.middleware.StoreUserAgent',
 )
 
 INSTALLED_APPS += (  # noqa: F405
@@ -84,7 +85,7 @@ INSTALLED_APPS += (  # noqa: F405
     # 'django_babel',
     # 'guardian',
     'reversion',
-    'django_user_agents',
+    # 'django_user_agents',
     # 'django_filters',
     'django_powerbank.apps.DjangoPowerbankConfig',
     'django_error_views.apps.DjangoErrorViewsConfig',
@@ -104,7 +105,7 @@ import django_error_views  # noqa F402 isort:skip
 
 LOCALE_PATHS += [  # noqa: F405
     str(Path(django_error_views.__file__).parent / 'locales'),
-    str(BASE_DIR / 'locales'),
+    str(core.BASE_DIR / 'locales'),
 ]
 
 SANDBOX = core.env("SANDBOX", default=True, cast=bool)

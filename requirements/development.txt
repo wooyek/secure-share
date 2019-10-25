@@ -15,5 +15,5 @@
 -r tooling.txt
 
 # Documentation
--r ../docs/requirements.txt
+# -r ../docs/requirements.txt
 
