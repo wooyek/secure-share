@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse, HttpResponseRedirect
+import pendulum
+from django.http import HttpResponse, HttpResponseGone, HttpResponseRedirect
 from django.shortcuts import resolve_url
-from django.views.generic import FormView
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
-from django_powerbank.views.auth import StaffRequiredMixin
+from django_powerbank.views.auth import AbstractAccessView, StaffRequiredMixin
+from pascal_templates import ListView
 from pascal_templates.views import CreateView, DetailView
 
 from . import forms, models
+
+
+class HomeView(StaffRequiredMixin, TemplateView):
+    template_name = "home.html"
 
 
 class SharedFileDetail(StaffRequiredMixin, DetailView):
@@ -14,6 +21,14 @@ class SharedFileDetail(StaffRequiredMixin, DetailView):
 
 
 class SharedUrlDetail(StaffRequiredMixin, DetailView):
+    model = models.SharedUrl
+
+
+class SharedFileList(StaffRequiredMixin, ListView):
+    model = models.SharedFile
+
+
+class SharedUrlList(StaffRequiredMixin, ListView):
     model = models.SharedUrl
 
 
@@ -40,17 +55,15 @@ class SharedFileCreate(SharedCreateBase):
         return resolve_url("secure_share:SharedFileDetail", self.object.pk)
 
 
-class SharedAuthorizeBase(SingleObjectMixin, FormView):
+class SharedAuthorizeBase(SingleObjectMixin, AbstractAccessView, FormView):
     form_class = forms.AuthorizationForm
     template_name = 'authorize.html'
 
-    def get(self, request, *args, **kwargs):
+    # noinspection PyAttributeOutsideInit
+    def check_authorization(self, *args, **kwargs):
         self.object = self.get_object()
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
+        if self.object.created < pendulum.now().subtract(days=1):
+            return HttpResponseGone(_("We are sorry, the link have expired."))
 
     def form_valid(self, form):
         if not form.check_password(self.object.secret):

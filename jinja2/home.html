@@ -1,7 +1,21 @@
 {% extends "base/default.html" %}
 {% block content %}
-  <div class="row text-center mt-5 justify-content-md-center">
-    TODO
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-4 offset-md-4">
+        <div class="card text-center mt-2 shadow">
+          <div class="card-body">
+            <p><i class="fa fa-file fa-5x"></i></p>
+            <a class="btn btn-primary" href="{{ url('secure_share:SharedFileCreate') }}">{% trans %}Share file{% endtrans %}</a>
+          </div>
+        </div>
+        <div class="card text-center mt-2 shadow">
+          <div class="card-body">
+            <p><i class="fa fa-globe fa-5x"></i></p>
+            <a class="btn btn-primary" href="{{ url('secure_share:SharedUrlCreate') }}">{% trans %}Share url{% endtrans %}</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
-

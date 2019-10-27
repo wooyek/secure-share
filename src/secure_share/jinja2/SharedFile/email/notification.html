@@ -1,7 +1,1 @@
-{% extends "email/personal.html" %}
-{% from "email/macros.html" import btn_primary with context %}
-{% block content %}
-  <p>{% trans %}Click the link below to view shared item{% endtrans %}</p>
-  {{ btn_primary("Szczegóły", url) }}
-{% endblock %}
-{% block message_footer %}{% endblock %}
+{% extends "SharedUrl/email/notification.html/personal.html" %}

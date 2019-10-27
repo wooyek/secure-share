@@ -1,4 +1,4 @@
-"""Pelikan website URL Configuration
+"""Website URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/dev/topics/http/urls/
@@ -6,14 +6,15 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.i18n import i18n_patterns
-from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from django_error_views.handlers import *  # noqa F401
 
 from .admin import custom_admin_site
+from .api import router
 from .misc import debug
 from .sitemaps import sitemaps
 
@@ -29,6 +30,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/password_reset/', PasswordResetView.as_view(), name='admin_password_reset'),
     path('unsubscribe/', include('django_opt_out.urls')),
+
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include(router.urls)),
+
     path('', include('secure_share.urls')),
 ]
 

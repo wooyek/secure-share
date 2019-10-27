@@ -2,13 +2,15 @@
 import logging
 
 import faker
+import pendulum
 import pytest
 from django import test
 from django.shortcuts import resolve_url
+from pytest_lazyfixture import lazy_fixture
 
 from website.misc.testing import assert_no_form_errors, get_client
-from . import factories
 from .. import models
+from . import factories
 
 log = logging.getLogger(__name__)
 fake = faker.Faker()
@@ -111,7 +113,24 @@ class AuthorizeViewsTest(object):
         form = response.context_data.get('form')
         assert form.errors['password'] == ['Invalid password']
 
+    @pytest.mark.parametrize(
+        "created, status", [
+            (pendulum.yesterday(), 410),
+            (pendulum.now().subtract(hours=23, minutes=59), 200)
+        ]
+    )
+    def test_gone(self, client, factory, created, status):
+        model_name = factory._meta.model.__name__
+        view_name = "secure_share:{}Authorize".format(model_name)
+        item = factory()
+        # The model field as auto_now set, so we override a `created` value directly in the db
+        factory._meta.model.objects.filter(pk=item.pk).update(created=created)
+        url = resolve_url(view_name, item.pk)
+        response = client.get(url)
+        assert response.status_code == status
 
+
+# noinspection PyMethodMayBeStatic
 @pytest.mark.django_db
 class SharedUrlAuthorizeViewTest(object):
 
@@ -122,6 +141,11 @@ class SharedUrlAuthorizeViewTest(object):
         assert_no_form_errors(response)
         assert response.status_code == 302
         assert response.url == item.url
+        item.refresh_from_db()
+        assert item.access_counter == 1
+        client.post(url, data={'password': item.secret})
+        item.refresh_from_db()
+        assert item.access_counter == 2
 
 
 @pytest.mark.django_db
@@ -172,3 +196,20 @@ class StoreUserAgentMiddlewareTest(object):
         assert models.UserAgent.objects.filter(user=admin_user).first().agent == 'foo'
         assert models.UserAgent.objects.filter(user=staff_user).first().agent == 'bar'
         assert models.UserAgent.objects.count() == 2
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'client, status', [
+        (lazy_fixture('admin_client'), 200),
+        (lazy_fixture('staff_client'), 200),
+        (lazy_fixture('authenticated_client'), 403),
+        (lazy_fixture('anonymous_client'), 302),
+    ]
+)
+class HomeViewTest(object):
+    # noinspection PyMethodMayBeStatic
+    def test_get(self, client, status):
+        url = resolve_url("secure_share:HomeView")
+        response = client.get(url)
+        assert response.status_code == status

@@ -23,10 +23,11 @@ include Procfile
 include .env Pipfile Pipfile.lock
 include .tmp/.gitignore
 include media/.gitignore
+include Aptfile
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
-recursive-exclude * .eggs .tox .tmp
+recursive-exclude * .eggs .tox .tmp media
 
 recursive-include .github *.*
 recursive-include requirements *.*
@@ -62,12 +63,17 @@ recursive-include fixtures *.xlsx
 recursive-include fixtures *.yml
 recursive-include locale *.cfg
 recursive-include locale *.po
+recursive-include locale *.pot
 recursive-include logs *.md
 recursive-include src *.txt
+recursive-exclude src *.secrets.env
 recursive-include static *.* *
 recursive-include templates *.html
 recursive-include templates *.txt
 recursive-include templates *.xml
+recursive-include jinja2 *.html
+recursive-include jinja2 *.txt
+recursive-include jinja2 *.xml
 recursive-include assets *.md
 recursive-include styles *.md
 recursive-include vendor *.md
@@ -93,6 +99,8 @@ recursive-include etc *.key
 recursive-include theme *.js
 recursive-include theme *.md
 recursive-include theme *.scss
+recursive-include profile.d *.
+recursive-exclude media *.txt *.pdf
 
 exclude assets/compressed/.webassets-cache
 recursive-exclude assets/compressed/.webassets-cache *
@@ -112,3 +120,5 @@ recursive-include example_project *.cfg
 
 exclude src/website/settings/production.env
 exclude data/db.dev.sqlite3
+exclude saml.crt
+exclude saml.key

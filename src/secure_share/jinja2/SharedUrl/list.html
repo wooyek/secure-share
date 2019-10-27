@@ -1,0 +1,38 @@
+{% extends "base/default.html" %}
+{% block main %}
+  <div class="container">
+    <table class="table table-striped table-hover mb-0 mt-3">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{% trans %}Created{% endtrans %}</th>
+        <th scope="col">{% trans %}Author{% endtrans %}</th>
+        <th scope="col">{% trans %}Email{% endtrans %}</th>
+        <th scope="col">{% trans %}Url{% endtrans %}</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for item in object_list %}
+        <tr>
+        <th scope="row" rowspan="1">
+          <a href="{{ url("secure_share:SharedUrlDetail", item.pk) }}">{{ item.pk }}</a>
+        </th>
+        <td>
+          <a href="{{ url("secure_share:SharedUrlDetail", item.pk) }}">
+              {{ item.created|datetimeformat("YYYY-MM-dd") }}
+          </a>
+        </td>
+        <td>{{ item.author }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.url }}</td>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="w-100 mt-3">
+        {% include "bootstrap/pagination.html" %}
+    </div>
+
+  </div>
+
+{% endblock %}

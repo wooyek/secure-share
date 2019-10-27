@@ -14,7 +14,7 @@ class SharedUrlAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 @admin.register(models.SharedFile)
-class SharedUrlAdmin(ImportExportMixin, admin.ModelAdmin):
+class SharedFileAdmin(ImportExportMixin, admin.ModelAdmin):
     resource_class = resources.SharedFileResource
     list_display = ('email', 'secret', 'file')
     list_filter = ('email',)

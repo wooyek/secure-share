@@ -13,6 +13,11 @@ log = logging.getLogger(__name__)
 
 
 @pytest.fixture
+def anonymous_client(staff_user):
+    return django.test.Client()
+
+
+@pytest.fixture
 def staff_user():
     return UserFactory.create(is_superuser=False, is_staff=True)
 

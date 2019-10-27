@@ -1,7 +1,7 @@
 {% extends "email/personal.html" %}
 {% from "email/macros.html" import btn_primary with context %}
 {% block content %}
-  <p>{% trans %}Click the link below to view shared item{% endtrans %}</p>
+  <p>{% trans %}Click the link below and enter the `{{ password }}` to view shared item{% endtrans %}</p>
   {{ btn_primary("View shared item", url) }}
 {% endblock %}
 {% block message_footer %}{% endblock %}

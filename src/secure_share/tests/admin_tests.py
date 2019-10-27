@@ -8,7 +8,6 @@ from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.shortcuts import resolve_url
 
 from website.misc.testing import AdminUserTestCase
-
 from . import factories
 
 log = logging.getLogger(__name__)
@@ -28,6 +27,7 @@ FACTORIES = (
     factories.SharedFileFactory,
     factories.UserAgentFactory,
 )
+
 
 # noinspection PyUnusedLocal,PyMethodMayBeStatic,PyProtectedMember
 @pytest.mark.django_db
@@ -53,5 +53,3 @@ class AdminViewsTests(object):
         item = factory()
         url = resolve_url(admin_urlname(factory._meta.model._meta, 'delete'), item.pk)
         assert admin_client.get(url).status_code == 200
-
-

@@ -12,7 +12,6 @@ fake = faker.Faker()
 class SharedFileFactory(factory.DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
     email = factory.Faker('niepodam_email')
-    secret = factory.Faker('text', max_nb_chars=20)
     file = factory.Sequence(
         lambda x: SimpleUploadedFile(
             '{}.txt'.format(x),
