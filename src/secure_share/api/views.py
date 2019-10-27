@@ -9,8 +9,8 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet, ViewSet
 
-from .. import models
 from . import serializers
+from .. import models
 
 log = logging.getLogger(__name__)
 

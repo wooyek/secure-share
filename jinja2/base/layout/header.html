@@ -13,19 +13,24 @@
         </ul>
 
         <ul class="navbar-nav">
-          {% if user.is_staff %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url("secure_share:SharedFileCreate") }}"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</a></li>
-              <a class="nav-link" href="{{ url('secure_share:SharedFileCreate') }}"><i class="fa fa-file"></i> {% trans %}Share file{% endtrans %}</a>
-              <a class="nav-link" href="{{ url('secure_share:SharedUrlCreate') }}"><i class="fa fa-globe"></i> {% trans %}Share url{% endtrans %}</a>
-              <a class="nav-link" href="api/"><i class="fa fa-exchange"></i> {% trans %}API{% endtrans %}</a>
-              <a class="nav-link" href="{{ url('admin:index') }}"><i class="fa fa-cog"></i> {% trans %}Admin{% endtrans %}</a>
-          {% endif %}
-          {% if user.is_authenticated %}
-          {% else %}
-            <li class="nav-item"><a class="nav-link" href="{{ url("login") }}"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</a></li>
-            </a></li>
-          {% endif %}
+            {% if user.is_staff %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('secure_share:SharedFileCreate') }}"><i class="fa fa-file"></i> {% trans %}Share file{% endtrans %}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('secure_share:SharedUrlCreate') }}"><i class="fa fa-globe"></i> {% trans %}Share url{% endtrans %}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="api/"><i class="fa fa-exchange"></i> {% trans %}API{% endtrans %}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin:index') }}"><i class="fa fa-cog"></i> {% trans %}Admin{% endtrans %}</a>
+              </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{{ url("login") }}"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</a></li>
+            {% endif %}
         </ul>
       </div>
     </nav>

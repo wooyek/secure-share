@@ -36,7 +36,7 @@ python ../manage.py check
 
 if [[ -n "$CREATE_SUPER_USER" ]]; then
     echo "==> Creating super user"
-    printf "from django.contrib.auth.models import User\nif not User.objects.exists(): User.objects.create_superuser(*'$CREATE_SUPER_USER'.split(':'))" | python /app/example_project/manage.py shell
+    printf "from django.contrib.auth.models import User\nif not User.objects.exists(): User.objects.create_superuser(*'$CREATE_SUPER_USER'.split(':'))" | python /app/manage.py shell
 fi
 
 echo "[ OK ] $(date) ${BASH_SOURCE[0]}"
