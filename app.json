@@ -96,12 +96,6 @@
       "description": "Subject-line prefix for email messages sent with django.core.mail.mail_admins or django.core.mail.mail_managers. You’ll probably want to include the trailing space. https://docs.djangoproject.com/en/2.2/ref/settings/#email-subject-prefix",
       "value": "[Sekretariat]",
       "required": false
-    },
-  },
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "free"
     }
   }
 }
