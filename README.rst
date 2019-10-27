@@ -89,21 +89,16 @@ Quickstart
     $ git checkout -b name-of-your-bugfix-or-feature
     $ python manage.py runserver
 
-7. To release to heroku setup your application binding with the local repo and deploy::
-
-    $ heroku git:remote --remote=dev --app=<your app here>
-    $ inv deploy
-
-8. Checkout other project management tasks::
+7. Checkout other project management tasks::
 
     $ inv --list
 
 Deployment
 ----------
 
-Add a development remote and deploy::
+Add a heroku development remote and deploy::
 
-    $ git remote add dev https://git.heroku.com/secure-share-dev.git
+    $ heroku git:remote --remote=dev --app=<your app here>
     $ inv deploy
 
 Credits
