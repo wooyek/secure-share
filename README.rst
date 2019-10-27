@@ -47,7 +47,9 @@ Features
 Demo
 ----
 
-To run an example project for this django reusable app, click the button below and start a demo serwer on Heroku
+To run an example project for this django reusable app, click the button below and start a demo server on Heroku.
+
+Please setup `ALLOWED_HOSTS` correctly providing a full app hostname as a first item. It will determine base of URLs used in notifications.
 
 .. image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy
