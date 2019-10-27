@@ -94,6 +94,10 @@ Quickstart
     $ heroku git:remote --remote=dev --app=<your app here>
     $ inv deploy
 
+8. Checkout other project management tasks::
+
+    $ inv --list
+
 Deployment
 ----------
 
