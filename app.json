@@ -47,7 +47,7 @@
     },
     "EMAIL_URL": {
       "description": "SMTP setting in the form of smtp+tls://user:password@example.com:587",
-      "value": "",
+      "value": "smtp+tls://SMTP_Injection:c8abd8f15dd60e5dadd0ed8a067db4bdd89dd6b5@smtp.sparkpostmail.com:587",
       "required": false
     },
     "UPGRADE_REQUIREMENTS": {
@@ -79,12 +79,12 @@
     },
     "DEFAULT_REPLY_TO_EMAIL": {
       "description": "Default email your users should reply to when looking for help",
-      "value": "Help <help@example.com>",
+      "value": "Help <help@netguru-secure-share.tk>",
       "required": true
     },
     "SERVER_EMAIL": {
-      "description": "Default email your users should reply to when looking for help",
-      "value": "Errors <errors@example.com>",
+      "description": "The email address that error messages come from, such as those sent to ADMINS and MANAGERS.",
+      "value": "Errors <err@netguru-secure-share.tk>",
       "required": true
     },
     "EMAIL_QUEUE_EAGER": {
