@@ -56,7 +56,7 @@ psycopg2-binary==2.8.4
 pycountry==19.8.18
 python-dateutil==2.8.0    # via pendulum
 python-dotenv==0.10.3
-python-stdnum==1.11       # via django-localflavor
+python-stdnum==1.12       # via django-localflavor
 pytz==2019.3
 pytzdata==2019.3          # via pendulum
 pyyaml==5.1.2             # via tablib
