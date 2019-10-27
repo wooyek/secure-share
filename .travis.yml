@@ -63,7 +63,7 @@ before_install:
   - export DATABASE_URL=psql://localhost:5432/travisdb
 
 install:
-  - pip install -r requirements/development.txt coveralls tox-travis
+  - pip install -r requirements/development.txt coveralls tox-travis twine
   - pip install .
   - virtualenv --version
   - easy_install --version
