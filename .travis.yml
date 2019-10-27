@@ -80,7 +80,7 @@ script:
 
 jobs:
   include:
-    - stage: make
+    - stage: tooling
       python: "3.6"
       script:
           - which python
