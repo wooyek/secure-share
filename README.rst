@@ -64,29 +64,33 @@ Quickstart
 
 3. Setup your development env::
 
-    $ pipsi install pew
+    $ pipx install pew
     $ cd secure-share/
     $ pew new -p python3 -a $(pwd) $(pwd | xargs basename)
     $ pew workon secure-share
     $ pip install -r requirements/development.txt
 
-4. Test project health::
+4. Initialize development database and fill it with test data::
+
+    $ bash bin/database_create.sh
+    $ inv db
+
+5. Test project health::
 
     $ python manage.py check
     $ pytest
     $ inv check
     $ tox
 
-5. Initialize development database and fill it with test data::
-
-    $ bash bin/database_create.sh
-    $ inv db
-
 6. Create a branch for local development and start development server::
 
     $ git checkout -b name-of-your-bugfix-or-feature
     $ python manage.py runserver
 
+7. To release to heroku setup your application binding with the local repo and deploy::
+
+    $ heroku git:remote --remote=dev --app=<your app here>
+    $ inv deploy
 
 Deployment
 ----------

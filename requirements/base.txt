@@ -39,6 +39,7 @@ html2text
 # jinja2-highlight
 # markdown
 invoke
+jinja2
 # maya
 newrelic
 # opencage
