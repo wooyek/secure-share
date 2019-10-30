@@ -10,6 +10,6 @@
         {% else %}
             <a class="btn btn-primary" href="/">{% trans %}Go to homepage{% endtrans %}</a>
         {% endif %}
-        <a class="btn btn-primary" href="{{ url('login') }}">{% trans %}Login again{% endtrans %}</a>
+        <a class="btn btn-primary" href="{{ url('admin:login') }}">{% trans %}Login again{% endtrans %}</a>
     </p>
 {% endblock %}

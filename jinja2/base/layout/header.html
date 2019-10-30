@@ -29,7 +29,7 @@
             {% endif %}
             {% if user.is_authenticated %}
             {% else %}
-              <li class="nav-item"><a class="nav-link" href="{{ url("login") }}"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url("admin:login") }}"><i class="fa fa-sign-in"></i> {% trans %}Log in{% endtrans %}</a></li>
             {% endif %}
         </ul>
       </div>
