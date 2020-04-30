@@ -33,7 +33,7 @@
     "eonasdan-bootstrap-datetimepicker-bootstrap4beta": "^4.17.47-a",
     "font-awesome": "^4.7.0",
     "hoek": "^6.1.2",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "jquery-easing": "0.0.1",
     "perfect-scrollbar": "^1.4.0",
     "popper.js": "^1.12.2",
